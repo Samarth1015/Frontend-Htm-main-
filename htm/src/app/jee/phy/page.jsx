@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react';
 import QC from '../../../../component/QC';
+import Uploadfile from '../../../../component/UploadFile';
 
 export default function Home() {
   const [paragraph, setParagraph] = useState('');
@@ -50,6 +51,8 @@ export default function Home() {
 
   return (
     <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
+      <Uploadfile subj={"Jp"} />
+
       <h1>Text Suggestions</h1>
       <form onSubmit={handleSubmit} className="flex flex-col">
         <textarea

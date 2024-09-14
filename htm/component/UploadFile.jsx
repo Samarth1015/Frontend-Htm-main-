@@ -1,12 +1,20 @@
 "use client";
-import { useState } from "react";
+
+import { useRef, useState } from "react";
 import axios from "axios";
-import { useRouter } from "next/router";
+
 
 export default function Uploadfile({ subj }) {
   const [file, setFile] = useState(null);
   const [base64, setBase64] = useState("");
-  const router = useRouter();
+  const inputRef = useRef();
+
+
+  const focusInput = () => {
+    if (inputRef.current) {
+      inputRef.current.click();
+    }
+  };
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0]; // Get the selected file
@@ -30,37 +38,43 @@ export default function Uploadfile({ subj }) {
     e.preventDefault();
     try {
       console.log("submitted");
+      // console.log(base64);
+      
       // Replace with your Flask server URL
-      await axios.post("http://localhost:5000/upload", { base64 });
-      router.push({
-        pathname: "/questions",
-        query: { data: JSON.stringify({ key: "value" }) }, // Send data to the new page
-      });
+      let response =  await axios.post("http://127.0.0.1:5000/Text_extract", {"ImageBase64String": base64  , "Subject":subj});
+      console.log(response.data);
+      
     } catch (error) {
       console.error("Error submitting file:", error);
     }
   };
 
   return (
-    <div className="mt-44 w-screen">
-      <form onSubmit={handleSubmit}>
-        <div className="flex justify-center bg-slate-800 w-fit mx-auto rounded-xl h-80">
-          <div>
-            <h1 className="text-4xl underline text-center">
-              Upload Para of book
-            </h1>
-            <div className="flex justify-center">
-              <img src="/book.png" alt="Book" className="h-1/2" />
-            </div>
-          </div>
+    <div className="flex justify-center items-center min-h-screen">
+      <form onSubmit={handleSubmit} className=" p-8 rounded-lg shadow-md w-full max-w-lg">
+        <h1 className="text-2xl font-bold mb-6 text-center">Upload Paragraph of Book</h1>
+        <div className="flex justify-center ">
+          <img
+            src="/book.png"
+            alt="Book"
+            onClick={focusInput}
+            className="cursor-pointer h-24"
+          />
         </div>
         <input
           type="file"
           name="file"
+          className="hidden"
+          ref={inputRef}
           accept="image/*" // Optional: to restrict to image files
           onChange={handleFileChange}
         />
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white p-2 rounded mt-4 hover:bg-blue-600 transition"
+        >
+          Submit
+        </button>
       </form>
     </div>
   );
