@@ -38,7 +38,13 @@ export default function Profile() {
               <a>Settings</a>
             </li>
             <li>
-              <button onClick={firebase.logOut}>logout</button>
+              <button
+                onClick={() => {
+                  firebase.logOut;
+                }}
+              >
+                logout
+              </button>
             </li>
           </ul>
         </div>

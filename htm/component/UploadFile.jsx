@@ -1,11 +1,12 @@
+"use client";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 
 export default function Uploadfile({ subj }) {
-  const router = useRouter();
   const [file, setFile] = useState(null);
   const [base64, setBase64] = useState("");
+  const router = useRouter();
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0]; // Get the selected file
@@ -13,7 +14,6 @@ export default function Uploadfile({ subj }) {
     convertToBase64(selectedFile); // Convert file to Base64
   };
 
-  // Function to convert file to Base64
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -25,24 +25,32 @@ export default function Uploadfile({ subj }) {
       reader.onerror = (error) => reject(error); // Reject on error
     });
   };
-  let handleSubmit = async (e) => {
-    console.log("submited");
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    //flask server to send the req;
-    await axios.post("", base64);
-    router.push("/questions");
+    try {
+      console.log("submitted");
+      // Replace with your Flask server URL
+      await axios.post("http://localhost:5000/upload", { base64 });
+      router.push({
+        pathname: "/questions",
+        query: { data: JSON.stringify({ key: "value" }) }, // Send data to the new page
+      });
+    } catch (error) {
+      console.error("Error submitting file:", error);
+    }
   };
 
   return (
-    <div className="mt-44 w-screen ">
+    <div className="mt-44 w-screen">
       <form onSubmit={handleSubmit}>
         <div className="flex justify-center bg-slate-800 w-fit mx-auto rounded-xl h-80">
           <div>
             <h1 className="text-4xl underline text-center">
-              Upload Para of book{" "}
+              Upload Para of book
             </h1>
             <div className="flex justify-center">
-              <img src="/book.png" alt="" className="h-1/2 " />
+              <img src="/book.png" alt="Book" className="h-1/2" />
             </div>
           </div>
         </div>

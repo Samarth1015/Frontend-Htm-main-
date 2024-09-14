@@ -8,6 +8,7 @@ import Option from "../../../component/Option";
 import dbConnect from "@/lib/db";
 import { app } from "../../../context/firebaseConfig";
 import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Quest() {
   const auth = getAuth(app);
@@ -25,15 +26,13 @@ export default function Quest() {
   useEffect(() => {
     async function fetchQuestions() {
       try {
-        let result = await axios.get(
-          "http://127.0.0.1:5000/get-questions?examType=jee"
-        );
-
-        // Access the data from the response
-        setArr(result.data); // Assuming you want to set this data to arr
-      } catch (error) {
-        console.error("Error fetching questions:", error); // Proper error handling
-      }
+        const router = useRouter();
+        const searchParams = useSearchParams();
+        if (searchParams.get("data")) {
+          setArr(JSON.parse(searchParams.get("data"))); // Parse the data back to JSON
+        }
+        // Assuming you want to set this data to arr
+      } catch (error) {}
     }
 
     fetchQuestions(); // Call the async function
