@@ -38,10 +38,9 @@ const OptionDay = ({ ans }) => {
       await axios.post("/api/right", { email: user.email });
     } else {
       setIsCorrect(false);
-      if (user) {
-        // Send the attempt information to the backend
-        await axios.post("/api/attempt", { email: user.email });
-      }
+
+      // Send the attempt information to the backend
+      await axios.post("/api/attempt", { email: user.email });
     }
   };
 
@@ -72,4 +71,4 @@ const OptionDay = ({ ans }) => {
   );
 };
 
-export default Option;
+export default OptionDay;
