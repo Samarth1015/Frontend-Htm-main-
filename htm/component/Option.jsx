@@ -1,33 +1,49 @@
 "use client";
 
+import axios from "axios";
 import { Question } from "../context/number";
 import React, { useContext, useEffect, useState } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { app } from "../context/firebaseConfig";
 
-const Option = ({ ans }) => {
+const auth = getAuth(app);
+
+const Option = ({ ans, question, shift }) => {
   let data = useContext(Question);
-  console.log(data);
 
-  let [user, setUser] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null); // To track the selected option
   const [isCorrect, setIsCorrect] = useState(null); // To track if the answer is correct or not
+  const [user, setUser] = useState(null); // State to store the authenticated user
 
-  const checkAnswer = (index) => {
+  useEffect(() => {
+    // Listen for authentication state changes
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser); // Set the user when they are authenticated
+      } else {
+        setUser(null); // Handle unauthenticated state
+      }
+    });
+
+    // Cleanup the listener when the component unmounts
+    return () => unsubscribe();
+  }, []);
+
+  const checkAnswer = async (index) => {
     setSelectedOption(index);
     if (index === parseInt(ans)) {
       setIsCorrect(true);
-      data.setData((prev) => {
-        let right = prev.right + 1;
-        let total = prev.wrong + prev.right;
-        return { ...prev, right, total };
-      });
-      console.log("answer correct ");
+
+      console.log("Answer correct");
+      console.log("Function " + shift);
+      shift(question + 1);
+      await axios.post("/api/right", { email: user.email });
     } else {
       setIsCorrect(false);
-      data.setData((prev) => {
-        let wrong = prev.wrong + 1;
-        let total = prev.wrong + prev.right;
-        return { ...prev, wrong };
-      });
+      if (user) {
+        // Send the attempt information to the backend
+        await axios.post("/api/attempt", { email: user.email });
+      }
     }
   };
 

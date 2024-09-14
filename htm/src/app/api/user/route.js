@@ -17,7 +17,6 @@ export async function POST(req) {
       email: email,
       totalQuestion: 0,
       right: 0,
-      wrong: 0,
     });
 
     await newuser.save();

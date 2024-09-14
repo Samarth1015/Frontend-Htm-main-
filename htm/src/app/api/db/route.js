@@ -6,7 +6,7 @@ export async function POST(req) {
   await dbConnect();
 
   let email = await req.json();
-  console.log("email from db");
+  // console.log("email from db");
 
   let user = await User.find(email);
 

@@ -42,16 +42,18 @@ export default function Quest() {
   const questions = arr?.questions || []; // Ensure questions is an array
 
   // Handler function for integer answer check
-  const checkInteger = (num, ans) => {
+  const checkInteger = async (num, ans) => {
     if (ans === "I" + num) {
       setAttempted(true);
       setCorrectAnswer(true);
+      await axios.post("/api/right", { email: user.email });
       setTimeout(() => {
         moveToNextQuestion(); // Move to the next question after a correct answer
       }, 1000); // Move to the next question after a 1-second delay
     } else {
       setAttempted(true);
       setCorrectAnswer(false);
+      await axios.post("/api/attempt", { email: user.email });
     }
   };
 
@@ -67,7 +69,7 @@ export default function Quest() {
       alert("You have completed all the questions!"); // Handle end of quiz
     }
   };
-
+  console.log("question number in page", currentQuestionIndex);
   return (
     <div className="mt-80">
       <div>
@@ -114,10 +116,16 @@ export default function Quest() {
                 >
                   Submit
                 </button>
+                {console.log("integer question")}
               </>
             ) : (
               <div>
-                <Option ans={arr.solutions[currentQuestionIndex]} />
+                {console.log("not an integer")}
+                <Option
+                  ans={arr.solutions[currentQuestionIndex]}
+                  question={currentQuestionIndex}
+                  shift={setCurrentQuestionIndex}
+                />
               </div>
             )}
           </div>
