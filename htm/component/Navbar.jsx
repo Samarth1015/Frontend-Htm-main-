@@ -33,7 +33,8 @@ export default function Navbar() {
                 className="h-5 w-5"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke="currentColor">
+                stroke="currentColor"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -44,7 +45,8 @@ export default function Navbar() {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            >
               <li>
                 <Link href="/"> Home</Link>
               </li>
@@ -72,11 +74,11 @@ export default function Navbar() {
               <Link href="/explore">Explore</Link>
             </li>
             <li>
-              <a>Discuss</a>
+              <a href="https://studybuddie.streamlit.app/">Discuss</a>
             </li>
             <li>
-                <Link href="/QuestionOfTheDay">Question me</Link>
-              </li>
+              <Link href="/QuestionOfTheDay">Question me</Link>
+            </li>
           </ul>
         </div>
         <Profile></Profile>

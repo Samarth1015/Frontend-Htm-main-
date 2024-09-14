@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import Option from "./Option";
-
+import OptionDay from "../component/questionoftheday";
 const QuestionComp = ({ src, flag = true, index, ans }) => {
   const [integerAnswer, setIntegerAnswer] = useState("1");
   const [correctAnswer, setCorrectAnswer] = useState(false);
@@ -25,7 +25,7 @@ const QuestionComp = ({ src, flag = true, index, ans }) => {
       <Image src={src} width={750} height={200} />
       <div className="flex flex-row justify-between mt-2">
         {flag ? (
-          <Option ans={ans} />
+          <OptionDay ans={ans} />
         ) : (
           <>
             <input

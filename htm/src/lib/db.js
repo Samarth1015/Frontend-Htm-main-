@@ -12,7 +12,9 @@ export default async function dbConnect() {
 
   try {
     await mongoose
-      .connect("mongodb://127.0.0.1:27017/Classbuddy")
+      .connect(
+        "mongodb+srv://hashjakky:jAySwamiNarayan@cluster0.kgs2crj.mongodb.net/"
+      )
       .then((res) => {
         console.log("connected ");
       });

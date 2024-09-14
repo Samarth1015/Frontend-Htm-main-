@@ -7,6 +7,7 @@ import User from "@/lib/Model/user";
 import Option from "../../../component/Option";
 import dbConnect from "@/lib/db";
 import { app } from "../../../context/firebaseConfig";
+import Image from "next/image";
 
 export default function Quest() {
   const auth = getAuth(app);
@@ -49,7 +50,7 @@ export default function Quest() {
       await axios.post("/api/right", { email: user.email });
       setTimeout(() => {
         moveToNextQuestion(); // Move to the next question after a correct answer
-      }, 1000); // Move to the next question after a 1-second delay
+      }, 3000); // Move to the next question after a 1-second delay
     } else {
       setAttempted(true);
       setCorrectAnswer(false);
@@ -72,62 +73,72 @@ export default function Quest() {
   console.log("question number in page", currentQuestionIndex);
   return (
     <div className="mt-80">
-      <div>
+      <div className="flex justify-center">
         {questions.length > 0 ? (
-          <div key={currentQuestionIndex} className="mt-14 bg-white p-2">
+          <div key={currentQuestionIndex} className="  h-52 w-1/2 p-2">
             {/* Set white background and padding */}
-            <div>
-              <img
+            <div className="w-full h-full flex justify-center flex-col ">
+              {/* <img
                 src={questions[currentQuestionIndex]}
                 alt={`Question ${currentQuestionIndex + 1}`}
-                className="h-48 object-contain" // Fixed size for all images
+                className=" object-fill" // Fixed size for all images
+              /> */}
+              <Image
+                src={questions[currentQuestionIndex]}
+                alt={`Question ${currentQuestionIndex + 1}`}
+                width={850}
+                height={650}
               />
+
+              {/* Check if the current question is an integer type */}
+              {arr?.solutions[currentQuestionIndex]?.slice(0, 1) === "I" ? (
+                <>
+                  <div className="flex flex-row justify-between px-5">
+                    {" "}
+                    <input
+                      type="number"
+                      value={integerAnswer}
+                      onChange={(e) => setIntegerAnswer(e.target.value)}
+                      className={` bg-transparent mt-4 py-2 ml-5 w-36 placeholder:text-white rounded-md border-2 ${
+                        attempted
+                          ? correctAnswer
+                            ? "border-green-500"
+                            : "border-red-500"
+                          : "border-blue-500"
+                      } text-white font-bold px-4`}
+                      placeholder="Enter Integer"
+                    />
+                    <button
+                      onClick={() =>
+                        checkInteger(
+                          integerAnswer,
+                          arr.solutions[currentQuestionIndex]
+                        )
+                      }
+                      className={`${
+                        attempted
+                          ? correctAnswer
+                            ? "bg-green-500"
+                            : "bg-red-500"
+                          : "bg-blue-500"
+                      } px-10 py-2 rounded-md text-white active:scale-95 transition-all duration-100 w-32 self-center`}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                  {console.log("integer question")}
+                </>
+              ) : (
+                <div>
+                  {console.log("not an integer")}
+                  <Option
+                    ans={arr.solutions[currentQuestionIndex]}
+                    question={currentQuestionIndex}
+                    shift={setCurrentQuestionIndex}
+                  />
+                </div>
+              )}
             </div>
-            {/* Check if the current question is an integer type */}
-            {arr?.solutions[currentQuestionIndex]?.slice(0, 1) === "I" ? (
-              <>
-                <input
-                  type="number"
-                  value={integerAnswer}
-                  onChange={(e) => setIntegerAnswer(e.target.value)}
-                  className={` bg-transparent py-2 ml-5 placeholder:text-black rounded-md border-2 ${
-                    attempted
-                      ? correctAnswer
-                        ? "border-green-500"
-                        : "border-red-500"
-                      : "border-blue-500"
-                  } text-black font-bold px-4`}
-                  placeholder="Enter Integer"
-                />
-                <button
-                  onClick={() =>
-                    checkInteger(
-                      integerAnswer,
-                      arr.solutions[currentQuestionIndex]
-                    )
-                  }
-                  className={`${
-                    attempted
-                      ? correctAnswer
-                        ? "bg-green-500"
-                        : "bg-red-500"
-                      : "bg-blue-500"
-                  } px-10 py-2 rounded-md text-white active:scale-95 transition-all duration-100 w-32 self-center`}
-                >
-                  Submit
-                </button>
-                {console.log("integer question")}
-              </>
-            ) : (
-              <div>
-                {console.log("not an integer")}
-                <Option
-                  ans={arr.solutions[currentQuestionIndex]}
-                  question={currentQuestionIndex}
-                  shift={setCurrentQuestionIndex}
-                />
-              </div>
-            )}
           </div>
         ) : (
           <div className="w-screen flex justify-center">

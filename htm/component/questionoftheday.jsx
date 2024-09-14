@@ -8,7 +8,7 @@ import { app } from "../context/firebaseConfig";
 
 const auth = getAuth(app);
 
-const Option = ({ ans, question, shift }) => {
+const OptionDay = ({ ans }) => {
   let data = useContext(Question);
 
   const [selectedOption, setSelectedOption] = useState(null); // To track the selected option
@@ -26,7 +26,6 @@ const Option = ({ ans, question, shift }) => {
     });
 
     // Cleanup the listener when the component unmounts
-    return () => unsubscribe();
   }, []);
 
   const checkAnswer = async (index) => {
@@ -35,10 +34,6 @@ const Option = ({ ans, question, shift }) => {
       setIsCorrect(true);
 
       console.log("Answer correct");
-      console.log("Function " + shift);
-      setTimeout(() => {
-        shift(question + 1);
-      }, 700);
 
       await axios.post("/api/right", { email: user.email });
     } else {

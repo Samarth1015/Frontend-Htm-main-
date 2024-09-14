@@ -4,14 +4,16 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from "../../../context/firebaseConfig";
 import axios from "axios";
 import Button from "@mui/material/Button";
-import { Question } from "../../../context/number";
+import { Loader2 } from "lucide-react"; // Use a loader icon from Lucide
 
 const auth = getAuth(app);
 
 export default function ProfilePage() {
-  const [data, setData] = useState({});
-  const [user, setUser] = useState(null);
+  const [data, setData] = useState(null); // Initially set to null to represent loading state
+  const [user, setUser] = useState(null); // Initially set to null for the same reason
+  const [loading, setLoading] = useState(true); // New loading state
 
+  // Check if user is authenticated
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -19,11 +21,13 @@ export default function ProfilePage() {
       } else {
         setUser(null);
       }
+      setLoading(false); // Authentication check completed
     });
 
-    return () => unsubscribe(); // Clean up subscription on unmount
+    return () => unsubscribe(); // Cleanup listener on unmount
   }, []);
 
+  // Fetch data from the API when user is authenticated
   useEffect(() => {
     if (user) {
       const fetchData = async () => {
@@ -31,7 +35,7 @@ export default function ProfilePage() {
           const result = await axios.post("/api/user", { email: user.email });
           console.log("response success");
           console.log(result.data);
-          setData(result.data); // Assuming response is already JSON
+          setData(result.data); // Assuming response is already in JSON format
         } catch (error) {
           console.error("Error posting data:", error);
         }
@@ -41,8 +45,16 @@ export default function ProfilePage() {
     }
   }, [user]);
 
-  if (!user) return <div>Loading...</div>; // Loading state
+  // Display loader while waiting for both user authentication and data fetching
+  if (loading || !user || !data) {
+    return (
+      <div className="w-screen flex justify-center items-center h-screen">
+        <Loader2 className="animate-spin text-blue-600 w-12 h-12 align-middle" />
+      </div>
+    );
+  }
 
+  // Once the user is authenticated and data is fetched, display the profile page
   return (
     <div className="flex h-screen">
       <div
@@ -62,7 +74,7 @@ export default function ProfilePage() {
           </div>
         </div>
         <h1 className="ml-7 mt-5">
-          user about Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+          user about Lorem ipsum dolor sit amet consectetur adipisicing elit.
           Aliquam enim eum repellat libero dolor, ratione placeat quasi, minus
           id distinctio, alias reprehenderit corrupti. Aliquam possimus
           doloribus iusto ut architecto in.
@@ -80,9 +92,6 @@ export default function ProfilePage() {
         </h1>
         <h1 className="text-center text-4xl mt-24">
           Total number of right questions: {data[0]?.right}
-        </h1>
-        <h1 className="text-center text-4xl mt-24">
-          Total number of wrong attempted: {data[0]?.wrong}
         </h1>
       </div>
     </div>
