@@ -11,6 +11,7 @@ const auth = getAuth(app);
 const Option = ({ ans, question, shift }) => {
   let data = useContext(Question);
 
+
   const [selectedOption, setSelectedOption] = useState(null); // To track the selected option
   const [isCorrect, setIsCorrect] = useState(null); // To track if the answer is correct or not
   const [user, setUser] = useState(null); // State to store the authenticated user
@@ -37,8 +38,8 @@ const Option = ({ ans, question, shift }) => {
       console.log("Answer correct");
       setTimeout(() => {
         shift(question + 1);
+        setSelectedOption(null)
       }, 700);
-
       await axios.post("/api/right", { email: user.email });
     } else {
       setIsCorrect(false);
