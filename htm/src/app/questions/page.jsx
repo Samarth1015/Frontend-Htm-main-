@@ -61,7 +61,6 @@ export default function Quest() {
 
             return (
               <div key={index} className="mt-14 bg-white p-2">
-                {/* Set white background and padding */}
                 <div>
                   <img
                     src={item}
