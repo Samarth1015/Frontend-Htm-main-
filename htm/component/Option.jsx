@@ -35,7 +35,6 @@ const Option = ({ ans, question, shift }) => {
       setIsCorrect(true);
 
       console.log("Answer correct");
-      console.log("Function " + shift);
       setTimeout(() => {
         shift(question + 1);
       }, 700);
