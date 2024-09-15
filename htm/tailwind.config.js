@@ -13,6 +13,9 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      dropShadow: {
+        'custom': '-1px 0px 10px white', // Your custom shadow
+      }
     },
   },
   plugins: [require("daisyui")],

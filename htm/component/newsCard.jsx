@@ -1,4 +1,6 @@
-export default function NewsCard({ data }) {
+import Image from "next/image";
+
+export default function NewsCard({ data  , imageSrc}) {
   console.log(data);
   return (
     <a href={data.url}>
@@ -8,7 +10,7 @@ export default function NewsCard({ data }) {
          shadow-cyan-100 border-collapse"
         >
           <figure>
-            <img className="h-72 w-96" src="/new logo.jpg" alt="Shoes" />
+            <Image width={250} height={200} className="rounded-xl" objectFit="cover" src={imageSrc} alt="News" />
           </figure>
           <div className="card-body">
             <h2 className="card-title truncate ">

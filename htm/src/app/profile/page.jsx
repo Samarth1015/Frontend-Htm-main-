@@ -35,7 +35,7 @@ export default function ProfilePage() {
         try {
           const result = await axios.post("/api/user", { email: user.email });
           console.log("response success");
-      
+
           setData(result.data); // Assuming response is already in JSON format
         } catch (error) {
           console.error("Error posting data:", error);
@@ -58,11 +58,10 @@ export default function ProfilePage() {
 
   // Once the user is authenticated and data is fetched, display the profile page
   return (
-    <div className="flex h-screen">
+    <div className="flex h-fit">
       <div
         id="profile-info"
-        className="max-w-96 min-w-96 box-border pt-6 bg-slate rounded-2xl mt-24 bg-slate-900 ml-5"
-      >
+        className="max-w-96 min-w-96 box-border pt-6 bg-slate rounded-2xl mt-24 bg-slate-900 ml-5">
         <div id="user-info" className="flex items-center gap-x-4">
           <div>
             <img
@@ -76,22 +75,49 @@ export default function ProfilePage() {
           </div>
         </div>
         <h1 className="ml-7 mt-5">
-        Jenil Parmar is a 2nd-year BTech student at IIIT Vadodara, passionate about web development, machine learning, and mobile app development. With a strong foundation in technologies like Next.js, Flask, and Flutter, Jenil has worked on various innovative projects, including a women safety app and a crime reporting platform. Always eager to learn and apply new skills, Jenil is focused on using technology to make a positive impact, especially in rural healthcare and safety applications.
+          Jenil Parmar is a 2nd-year BTech student at IIIT Vadodara,Highly passionate
+          about web development, machine learning, and mobile app development.
+          With a very strong foundation in technologies like Next.js, Flask, and
+          Flutter, Jenil has worked on various innovative projects, including a
+          women safety app and a crime reporting platform. Always eager to learn
+          and apply new skills, Jenil is focused on using technology to make a
+          positive impact, especially in rural healthcare and safety
+          applications.
           <br />
-          
         </h1>
       </div>
       <div
         id="q-Data"
-        className="w-screen box-border pt-6 bg-slate rounded-2xl mt-24 bg-slate-900 ml-5 mr-5"
-      >
-        <h1 className="text-center text-4xl mt-24">
-          Total number of questions attempted: {data.user[0]?.totalQuestion}
+        className="w-full h-full overflow-y-hidden py-10 justify-center gap-2 flex flex-col -gap-5 px-5 box-border pt-6 bg-slate rounded-2xl mt-24 bg-slate-900 ml-5 mr-5">
+      <div className="self-center -m-6">
+      <p className="text-gray-600 text-3xl font-bold self-center mt-10 mb-4">Look Where You Stand</p>
+
+      </div>
+        <div className="flex flex-row justify-around w-full ">
+        <h1 className="text-center   text-4xl mt-16 w-4/12 pt-5 bg-slate-800 border-[0.1vh] rounded-xl  transition-shadow duration-250 px-4  border-white "  >
+          Questions attempted:{" "}
+          <p className="text-7xl pt-4 text-white font-bold">
+            {data.user[0]?.totalQuestion}
+          </p>
           <br />
         </h1>
-        <h1 className="text-center text-4xl mt-24">
-          Total number of right questions: {data.user[0]?.right}
+        <h1 className="text-center   text-4xl mt-16 w-4/12 pt-5 bg-slate-800 border-[0.1vh] rounded-xl transition-shadow duration-250 px-4  border-white "   >
+         Conqured questions:{" "}
+          <p className="text-7xl pt-4 text-white font-bold">
+            {data.user[0]?.right}
+          </p>
+          <br />
         </h1>
+        </div>
+       <div className="flex flex-row justify-center">
+       <h1 className="text-center   text-4xl mt-24 w-4/12 pt-5  bg-slate-800 border-[0.1vh] rounded-xl  transition-shadow duration-250 px-4  border-white "   >
+          Setback questions:{" "}
+          <p className="text-7xl pt-4 text-white font-bold">
+            {data.user[0]?.totalQuestion-data.user[0]?.right}
+          </p>
+          <br />
+        </h1>
+       </div>
       </div>
     </div>
   );
