@@ -31,32 +31,28 @@ export default function Quest() {
     return () => unsubscribe();
   }, [auth]);
 
-  // Fetching data from local storage
+  // Fetch questions from Flask backend
   useEffect(() => {
     async function fetchQuestions() {
-     
       try {
-        const data = JSON.parse(localStorage.getItem("responseData"));
-        localStorage.removeItem('responseData');
-        if (data && Array.isArray(data.suggestions)) {
-         
-          setArr(data.suggestions);
-        
+        const response = await axios.post("/api/flask-endpoint", { paragraph: "your_paragraph_here" });
+        const data = response.data;
+        if (data && Array.isArray(data.quetion_Image)) {
+          setArr(data); // Store questions in state
         } else {
-          console.error("Invalid data format");
+          console.error("Invalid data format from Flask");
         }
       } catch (error) {
-        console.error("Error parsing query data:", error);
+        console.error("Error fetching data from Flask:", error);
       }
     }
 
     fetchQuestions(); // Call the async function
-  }, []); // Dependency array removed, fetch on component mount
+  }, []); // Fetch on component mount
 
-  // Access questions from arr
-  const questions = arr.map(item => item.question) || []; // Extract question text
-  const images = arr.map(item => item.image) || []; // Extract images
-  const solutions = arr.map(item => item.ans) || []; // Extract answers
+  // Access questions, images, and solutions from arr
+  const questions = arr.quetion_Image || []; // Extract question images
+  const solutions = arr.ans || []; // Extract answers
 
   // Handler function for integer answer check
   const checkInteger = async (num, ans) => {
@@ -69,7 +65,6 @@ export default function Quest() {
       setTimeout(() => {
         moveToNextQuestion(); // Move to the next question after a correct answer
       }, 700);
-
     } else {
       setAttempted(true);
       setCorrectAnswer(false);
@@ -84,7 +79,6 @@ export default function Quest() {
     setAttempted(false);
     setCorrectAnswer(false);
     setIntegerAnswer("1");
-    setCurrentQuestionIndex(currentQuestionIndex+1);
 
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1); // Go to next question
@@ -96,68 +90,61 @@ export default function Quest() {
   return (
     <div className="mt-80">
       <div className="flex justify-center">
-        {questions.length > 0  && currentQuestionIndex<questions.length? (
+        {questions.length > 0 ? (
           <div key={currentQuestionIndex} className="h-52 w-1/2 p-2">
             {/* Set white background and padding */}
             <div className="w-full h-full flex justify-center flex-col">
               <Image
-                src={`${images[currentQuestionIndex]}`}
+                src={`${questions[currentQuestionIndex]}`}
                 alt={`Question ${currentQuestionIndex + 1}`}
                 width={850}
                 height={650}
               />
 
               {/* Check if the current question is an integer type */}
-              {solutions[currentQuestionIndex]?.slice(0, 1) === 'I' ? (
-                <>
-                  <div className="flex flex-row justify-between px-5">
-                    <input
-                      type="number"
-                      value={integerAnswer}
-                      onChange={(e) => setIntegerAnswer(e.target.value)}
-                      className={`bg-transparent mt-4 py-2 ml-5 w-36 placeholder:text-white rounded-md border-2 ${
-                        attempted
-                          ? correctAnswer
-                            ? "border-green-500"
-                            : "border-red-500"
-                          : "border-blue-500"
-                      } text-white font-bold px-4`}
-                      placeholder="Enter Integer"
-                    />
-                    <button
-                      onClick={() =>
-                        checkInteger(
-                          integerAnswer,
-                          solutions[currentQuestionIndex]
-                        )
-                      }
-                      className={`${
-                        attempted
-                          ? correctAnswer
-                            ? "bg-green-500"
-                            : "bg-red-500"
-                          : "bg-blue-500"
-                      } px-10 py-2 rounded-md text-white active:scale-95 transition-all duration-100 w-32 self-center`}
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <div>
-                  <Option
-                    ans={solutions[currentQuestionIndex]}
-                    question={currentQuestionIndex}
-                    shift={setCurrentQuestionIndex}
+              {solutions[currentQuestionIndex]?.slice(0, 1) === "I" ? (
+                <div className="flex flex-row justify-between px-5">
+                  <input
+                    type="number"
+                    value={integerAnswer}
+                    onChange={(e) => setIntegerAnswer(e.target.value)}
+                    className={`bg-transparent mt-4 py-2 ml-5 w-36 placeholder:text-white rounded-md border-2 ${
+                      attempted
+                        ? correctAnswer
+                          ? "border-green-500"
+                          : "border-red-500"
+                        : "border-blue-500"
+                    } text-white font-bold px-4`}
+                    placeholder="Enter Integer"
                   />
+                  <button
+                    onClick={() =>
+                      checkInteger(
+                        integerAnswer,
+                        solutions[currentQuestionIndex]
+                      )
+                    }
+                    className={`${
+                      attempted
+                        ? correctAnswer
+                          ? "bg-green-500"
+                          : "bg-red-500"
+                        : "bg-blue-500"
+                    } px-10 py-2 rounded-md text-white active:scale-95 transition-all duration-100 w-32 self-center`}
+                  >
+                    Submit
+                  </button>
                 </div>
+              ) : (
+                <Option
+                  ans={solutions[currentQuestionIndex]}
+                  question={currentQuestionIndex}
+                  shift={setCurrentQuestionIndex}
+                />
               )}
             </div>
           </div>
         ) : (
-          currentQuestionIndex===questions.length?<>
-          <h1 className="text-6xl transition-all scale-105 text-blue-500 font-bold ">Completed Pyqs</h1>
-          </>:
           <div className="w-screen flex justify-center">
             <Loader2 className="animate-spin text-blue-600 w-12 h-12 align-middle" />
           </div>

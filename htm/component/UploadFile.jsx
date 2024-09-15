@@ -2,13 +2,13 @@
 
 import { useRef, useState } from "react";
 import axios from "axios";
-
+import { useRouter } from "next/navigation";
 
 export default function Uploadfile({ subj }) {
+  let router = useRouter();
   const [file, setFile] = useState(null);
   const [base64, setBase64] = useState("");
   const inputRef = useRef();
-
 
   const focusInput = () => {
     if (inputRef.current) {
@@ -38,20 +38,27 @@ export default function Uploadfile({ subj }) {
     e.preventDefault();
     try {
       console.log("submitted");
-      // console.log(base64);
       
-      // Replace with your Flask server URL
-      let response =  await axios.post("http://127.0.0.1:5000/Text_extract", {"ImageBase64String": base64  , "Subject":subj});
-      console.log(response.data);
-      
+      let response = await axios.post("http://127.0.0.1:5000/Text_extract", {
+        "ImageBase64String": base64,
+        "Subject": subj,
+      });
+  
+      // Navigate to another page after submission with query params
+      localStorage.setItem("responseData", JSON.stringify(response.data));
+
+      router.push(
+        !(subj==="Jm")?`/questions`:`/qmaths`
+      ); // Replace with actual path if needed
     } catch (error) {
       console.error("Error submitting file:", error);
     }
   };
+  
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <form onSubmit={handleSubmit} className=" p-8 rounded-lg shadow-md w-full max-w-lg">
+      <form onSubmit={handleSubmit} className="p-8 rounded-lg shadow-md w-full max-w-lg">
         <h1 className="text-2xl font-bold mb-6 text-center">Upload Paragraph of Book</h1>
         <div className="flex justify-center ">
           <img

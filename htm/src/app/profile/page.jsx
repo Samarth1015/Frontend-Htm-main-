@@ -24,17 +24,18 @@ export default function ProfilePage() {
       setLoading(false); // Authentication check completed
     });
 
-    return () => unsubscribe(); // Cleanup listener on unmount
+    // Cleanup listener on unmount
   }, []);
 
   // Fetch data from the API when user is authenticated
   useEffect(() => {
     if (user) {
+      console.log("error can ");
       const fetchData = async () => {
         try {
           const result = await axios.post("/api/user", { email: user.email });
           console.log("response success");
-          console.log(result.data);
+      
           setData(result.data); // Assuming response is already in JSON format
         } catch (error) {
           console.error("Error posting data:", error);
@@ -44,6 +45,7 @@ export default function ProfilePage() {
       fetchData();
     }
   }, [user]);
+  console.log(data);
 
   // Display loader while waiting for both user authentication and data fetching
   if (loading || !user || !data) {
@@ -87,11 +89,11 @@ export default function ProfilePage() {
         className="w-screen box-border pt-6 bg-slate rounded-2xl mt-24 bg-slate-900 ml-5 mr-5"
       >
         <h1 className="text-center text-4xl mt-24">
-          Total number of questions attempted: {data[0]?.totalQuestion}
+          Total number of questions attempted: {data.user[0]?.totalQuestion}
           <br />
         </h1>
         <h1 className="text-center text-4xl mt-24">
-          Total number of right questions: {data[0]?.right}
+          Total number of right questions: {data.user[0]?.right}
         </h1>
       </div>
     </div>

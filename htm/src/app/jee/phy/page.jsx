@@ -53,14 +53,14 @@ export default function Home() {
     <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
       <Uploadfile subj={"Jp"} />
 
-      <h1>Text Suggestions</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col">
+      <h1 className='text-center self-center'>Text Suggestions</h1>
+      <form onSubmit={handleSubmit} className="flex flex-col justify-center">
         <textarea
           value={paragraph}
           onChange={handleInputChange}
           placeholder="Enter a paragraph..."
           rows={6}
-          className="text-white mt-7"
+          className="text-white mt-7 self-center"
           style={{ width: '100%', padding: '10px', fontSize: '16px' }}
           required
         />
