@@ -34,13 +34,11 @@ export default function Profile() {
                 <span className="badge">New</span>
               </Link>
             </li>
-            <li>
-              <a>Settings</a>
-            </li>
+           
             <li>
               <button
                 onClick={() => {
-                  firebase.logOut;
+                  firebase.logOut();
                 }}
               >
                 logout

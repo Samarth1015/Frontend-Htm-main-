@@ -12,7 +12,9 @@ const QC = ({ imageSrc, ans, index, shift }) => {
   return (
     <div className="mt-5 w-full px-10 h-fit py-10 flex flex-col justify-center">
       <Image src={imageSrc} width={850} height={550} alt="Question image" />
-      {ans.slice(0, 1) === "I" ? (
+      {
+      
+      (""+ans).slice(0, 1) =="I" ? (
         <>
           <div className="flex flex-row gap-6">
             <input

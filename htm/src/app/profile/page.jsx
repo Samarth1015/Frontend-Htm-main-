@@ -76,12 +76,9 @@ export default function ProfilePage() {
           </div>
         </div>
         <h1 className="ml-7 mt-5">
-          user about Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Aliquam enim eum repellat libero dolor, ratione placeat quasi, minus
-          id distinctio, alias reprehenderit corrupti. Aliquam possimus
-          doloribus iusto ut architecto in.
+        Jenil Parmar is a 2nd-year BTech student at IIIT Vadodara, passionate about web development, machine learning, and mobile app development. With a strong foundation in technologies like Next.js, Flask, and Flutter, Jenil has worked on various innovative projects, including a women safety app and a crime reporting platform. Always eager to learn and apply new skills, Jenil is focused on using technology to make a positive impact, especially in rural healthcare and safety applications.
           <br />
-          <Button className="w-1 ml-36">Contained</Button>
+          
         </h1>
       </div>
       <div

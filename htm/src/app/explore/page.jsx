@@ -13,9 +13,18 @@ export default function News() {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`
-        );
+        const response =await axios.get('https://newsapi.org/v2/everything', {
+          params: {
+              // Query to fetch articles that mention NEET, JEE, or UPSC, and are related to education in India
+              q: '(NEET OR JEE OR UPSC OR CBSE) AND education AND India',
+              language: 'en',
+              sortBy: 'publishedAt',
+              apiKey: '377751c830b54d2cbc743af11c02fddb',
+          },
+      });
+     
+     
+
 
         setNews(response.data.articles);
       } catch (error) {

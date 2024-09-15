@@ -43,6 +43,7 @@ export default function Uploadfile({ subj }) {
         "ImageBase64String": base64,
         "Subject": subj,
       });
+      console.log("---data for neet "+JSON.stringify(response));
   
       // Navigate to another page after submission with query params
       localStorage.setItem("responseData", JSON.stringify(response.data));

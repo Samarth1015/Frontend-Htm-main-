@@ -10,6 +10,7 @@ const auth = getAuth(app);
 
 const Option = ({ ans, question, shift }) => {
   let data = useContext(Question);
+  const [showAns, setShowAnsewer] = useState(false);
 
 
   const [selectedOption, setSelectedOption] = useState(null); // To track the selected option
@@ -78,8 +79,25 @@ const Option = ({ ans, question, shift }) => {
       </>
       ))}
       </div>
-      <div className="bg-blue-500 active:scale-95 duration-100 transition-all ml-10 self-end px-10 py-5 w-fit">Show Answer</div>
-     </div>
+      <div
+        className={`bg-blue-500 rounded-xl active:scale-95 duration-100 ${
+          showAns ? "opacity-0" : undefined
+        } transition-all px-8 py-4 text-white w-fit`}
+        onClick={() => {
+          setShowAnsewer((prev) => !prev);
+        }}>
+        Show Answer
+      </div>
+      {showAns ? (
+        <>
+          <p className="text-green-500 text2xl font-bold">
+            {ans == 4 ? "D" : undefined} {ans == 3 ? "C" : undefined}
+            {ans == 2 ? "B" : undefined}
+            {ans == 1 ? "A" : undefined}
+          </p>
+        </>
+      ) : undefined}
+    </div>
     </div>
   );
 };

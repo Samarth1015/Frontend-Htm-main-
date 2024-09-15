@@ -37,6 +37,7 @@ export default function Quest() {
      
       try {
         const data = JSON.parse(localStorage.getItem("responseData"));
+        console.log(data);
         localStorage.removeItem('responseData');
         if (data && Array.isArray(data.suggestions)) {
          
@@ -95,21 +96,21 @@ export default function Quest() {
   };
 
   return (
-    <div className="mt-80">
+    <div className="mt-80" key={currentQuestionIndex}>
       <div className="flex justify-center">
         {questions.length > 0  && currentQuestionIndex<questions.length+1? (
           <div key={currentQuestionIndex} className="h-52 w-1/2 p-2">
             {/* Set white background and padding */}
             <div className="w-full h-full flex justify-center flex-col">
-              <Image
-                src={`${images[currentQuestionIndex]}`}
-                alt={`Question ${currentQuestionIndex + 1}`}
-                width={850}
-                height={650}
-              />
+            <Image
+  src={images[currentQuestionIndex] ? `${images[currentQuestionIndex]}` : "/done.jpg"} 
+  alt={`Question ${currentQuestionIndex + 1}`}
+  width={850}
+  height={650}
+/>
 
               {/* Check if the current question is an integer type */}
-              {solutions[currentQuestionIndex]?.slice(0, 1) === 'I' ? (
+              {(""+solutions[currentQuestionIndex])?.slice(0, 1) === "I" ? (
                 <>
                   <div className="flex flex-row justify-between px-5">
                     <input
@@ -156,9 +157,10 @@ export default function Quest() {
             </div>
           </div>
         ) : (
-          currentQuestionIndex===questions.length-1?<>
+          currentQuestionIndex<questions.length?<>
           <h1 className="text-6xl transition-all scale-105 text-blue-500 font-bold ">Completed Pyqs</h1>
           </>:
+         
           <div className="w-screen flex justify-center">
             <Loader2 className="animate-spin text-blue-600 w-12 h-12 align-middle" />
           </div>

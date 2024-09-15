@@ -74,8 +74,10 @@ export default function Navbar() {
               <Link href="/explore">Explore</Link>
             </li>
             <li>
-              <a href="https://studybuddie.streamlit.app/">Discuss</a>
+              <a href="https://studybuddie.streamlit.app/">Vision  Buddy</a>
+             
             </li>
+            <li> <a href="https://lemmebuildstudybuddy.streamlit.app/">Smart Buddy</a></li>
             <li>
               <Link href="/QuestionOfTheDay">Question me</Link>
             </li>
