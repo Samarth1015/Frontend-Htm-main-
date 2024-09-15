@@ -3,6 +3,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Uploadfile from '../../../../component/UploadFile';
 import Image from 'next/image';
+import QC from '../../../../component/QC';
 
 export default function SendParagraph() {
   const [paragraph, setParagraph] = useState('');
@@ -19,18 +20,27 @@ export default function SendParagraph() {
         },
       });
 
-      setResponse(res.data.result || {});
+      // If the response has a result, update the response state
+      setResponse(res.data.result || { ans: [], quetion_Image: [] });
     } catch (error) {
       console.error('Error sending paragraph:', error);
       setResponse({ ans: [], quetion_Image: [] });
     }
   };
-
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const shiftToNextQuestion = () => {
+    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+  };
   return (
     <div className='flex flex-col justify-center'>
-      <Uploadfile subj={"Jm"}  />
+      {/* Upload file component */}
+      <Uploadfile subj={"Jm"} />
+
+      {/* Title */}
       <h1 className='self-center'>Send Paragraph</h1>
-      <form onSubmit={handleSubmit} className='flex flex-col justify-center '>
+
+      {/* Paragraph input form */}
+      <form onSubmit={handleSubmit} className='flex flex-col justify-center'>
         <textarea
           value={paragraph}
           onChange={(e) => setParagraph(e.target.value)}
@@ -38,31 +48,30 @@ export default function SendParagraph() {
           cols="50"
           className="text-white self-center mt-10"
           placeholder="Enter your paragraph here..."
+          required
         />
         <br />
-        <button type="submit" className='bg-blue-500 px-10 py-5 rounded-lg active:scale-95 w-fit self-center text-white mb-10'>Send</button>
+        <button type="submit" className='bg-blue-500 px-10 py-5 rounded-lg active:scale-95 w-fit self-center text-white mb-10'>
+          Send
+        </button>
       </form>
 
-      {response.ans.length > 0 && (
-        <div>
-          <h2>Answers:</h2>
-          {response.ans.map((ans, index) => (
-            <p key={index}>{ans}</p>
-          ))}
-        </div>
-      )}
+     
 
+      {/* Displaying Question Images */}
       {response.quetion_Image.length > 0 && (
-        <div>
+        <div className='mt-5 flex self-center flex-col justify-center'>
           {response.quetion_Image.map((imgSrc, index) => (
-            <Image
-              key={index}
-              src={imgSrc}
-              alt={`Image ${index}`}
-              width={850}
-              height={550}
-              className='mt-10'
-            />
+           <>
+           
+            <QC
+            ans={response.ans[index]}
+            index={currentQuestionIndex}
+            shift={shiftToNextQuestion}
+            imageSrc={imgSrc}
+          />
+           </>
+            
           ))}
         </div>
       )}

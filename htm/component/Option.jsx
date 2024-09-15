@@ -61,21 +61,25 @@ const Option = ({ ans, question, shift }) => {
   };
 
   return (
-    <div className="flex flex-row justify-start px-4 w-full gap-4 mt-2 h-fit">
-      {["A", "B", "C", "D"].map((label, idx) => (
+    <div className="flex flex-row  px-4 w-full gap-4 mt-2 h-fit">
+     <div className="flex flex-row justify-between px-4">
+       <div className="flex flex-row gap-4">
+     {["A", "B", "C", "D"].map((label, idx) => (
       <>
-        <div
+       <div
           key={label}
           onClick={() => checkAnswer(idx + 1)}
-          className={`border-2 px-10 py-2 active:scale-95 duration-100 transition-all rounded-lg bg-transparent text-center font-bold ${getOptionStyle(
+          className={`border-2 px-10 py-2 self-center active:scale-95 duration-100 transition-all rounded-lg bg-transparent text-center font-bold ${getOptionStyle(
             idx + 1
           )}`}
         >
           {label}
-        </div>
-        <div className="bg-blue-500 active:scale-95 duration-100 transition-all px-10 py-5 w-fit">Show Answer</div>
+       </div>
       </>
       ))}
+      </div>
+      <div className="bg-blue-500 active:scale-95 duration-100 transition-all ml-10 self-end px-10 py-5 w-fit">Show Answer</div>
+     </div>
     </div>
   );
 };
