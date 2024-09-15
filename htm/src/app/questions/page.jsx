@@ -42,6 +42,7 @@ export default function Quest() {
          
           setArr(data.suggestions);
         
+        
         } else {
           console.error("Invalid data format");
         }
@@ -96,7 +97,7 @@ export default function Quest() {
   return (
     <div className="mt-80">
       <div className="flex justify-center">
-        {questions.length > 0  && currentQuestionIndex<questions.length? (
+        {questions.length > 0  && currentQuestionIndex<questions.length+1? (
           <div key={currentQuestionIndex} className="h-52 w-1/2 p-2">
             {/* Set white background and padding */}
             <div className="w-full h-full flex justify-center flex-col">
@@ -155,7 +156,7 @@ export default function Quest() {
             </div>
           </div>
         ) : (
-          currentQuestionIndex===questions.length?<>
+          currentQuestionIndex===questions.length-1?<>
           <h1 className="text-6xl transition-all scale-105 text-blue-500 font-bold ">Completed Pyqs</h1>
           </>:
           <div className="w-screen flex justify-center">

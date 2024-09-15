@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import Uploadfile from '../../../../component/UploadFile';
+import Image from 'next/image';
 
 export default function SendParagraph() {
   const [paragraph, setParagraph] = useState('');
@@ -26,7 +27,7 @@ export default function SendParagraph() {
   };
 
   return (
-    <div>
+    <div className='flex flex-col justify-center'>
       <Uploadfile subj={"Jm"}  />
       <h1 className='self-center'>Send Paragraph</h1>
       <form onSubmit={handleSubmit} className='flex flex-col justify-center '>
@@ -39,7 +40,7 @@ export default function SendParagraph() {
           placeholder="Enter your paragraph here..."
         />
         <br />
-        <button type="submit">Send</button>
+        <button type="submit" className='bg-blue-500 px-10 py-5 rounded-lg active:scale-95 w-fit self-center text-white mb-10'>Send</button>
       </form>
 
       {response.ans.length > 0 && (
@@ -53,13 +54,14 @@ export default function SendParagraph() {
 
       {response.quetion_Image.length > 0 && (
         <div>
-          <h2>Images:</h2>
           {response.quetion_Image.map((imgSrc, index) => (
-            <img
+            <Image
               key={index}
               src={imgSrc}
               alt={`Image ${index}`}
-              style={{ width: '100px', height: '100px', margin: '10px' }}
+              width={850}
+              height={550}
+              className='mt-10'
             />
           ))}
         </div>

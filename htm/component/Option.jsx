@@ -63,6 +63,7 @@ const Option = ({ ans, question, shift }) => {
   return (
     <div className="flex flex-row justify-start px-4 w-full gap-4 mt-2 h-fit">
       {["A", "B", "C", "D"].map((label, idx) => (
+      <>
         <div
           key={label}
           onClick={() => checkAnswer(idx + 1)}
@@ -72,6 +73,8 @@ const Option = ({ ans, question, shift }) => {
         >
           {label}
         </div>
+        <div className="bg-blue-500 active:scale-95 duration-100 transition-all px-10 py-5 w-fit">Show Answer</div>
+      </>
       ))}
     </div>
   );

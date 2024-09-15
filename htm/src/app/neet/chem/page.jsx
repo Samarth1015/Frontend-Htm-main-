@@ -51,9 +51,10 @@ export default function Home() {
 
   return (
     <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
+      <h1>Text Suggestions</h1>
       <Uploadfile subj={"Nc"} />
       
-      <h1>Text Suggestions</h1>
+
       <form onSubmit={handleSubmit} className="flex flex-col">
         <textarea
           value={paragraph}

@@ -34,6 +34,8 @@ export default function Home() {
 
       if (data.suggestions) {
         setSuggestions(data.suggestions);
+        console.log(suggestions);
+        
         setMessage('');
       } else {
         setSuggestions([]);
@@ -52,7 +54,7 @@ export default function Home() {
   return (
     <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
       <h1>Text Suggestions</h1>
-      <Uploadfile subj={"Nb"} />
+      <Uploadfile subj={'Nb'} />
 
       <form onSubmit={handleSubmit} className="flex flex-col">
         <textarea
@@ -75,7 +77,7 @@ export default function Home() {
 
       {message && <p style={{ marginTop: '20px', color: 'red' }}>{message}</p>}
 
-      {suggestions.length > 0 && currentQuestionIndex < suggestions.length-1 && (
+      {suggestions.length > 0 && currentQuestionIndex < suggestions.length && (
         <div style={{ marginTop: '20px' }}>
           <strong>Question: {currentQuestionIndex + 1}</strong>
           <QC
